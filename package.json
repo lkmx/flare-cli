@@ -1,0 +1,25 @@
+{
+  "name": "@lkmx/flare-cli",
+  "version": "0.1.0",
+  "description": "A CLI to bootstrap/transform flare projects",
+  "main": "src/index.js",
+  "bin": {
+    "@lkmx/flare-cli": "bin/flare",
+    "flare": "bin/flare"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cli",
+    "flare"
+  ],
+  "author": "victor.valle@lkmx.io",
+  "license": "MIT",
+  "dependencies": {
+    "esm": "^3.2.25"
+  }
+}
