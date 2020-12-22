@@ -1,25 +1,31 @@
-const templates = {
-  "Gridsome+VueJS": {
+import chalk from "chalk";
+
+const templates = [
+  {
+    name: "Gridsome+VueJS",
     path: "gridsome",
     repo: "https://github.com/lkmx/flare-starter-gridsome.git",
   },
-  "VueJS+Gridsome": {
+  {
+    name: "VueJS+Gridsome",
     path: "gridsome",
     repo: "https://github.com/lkmx/flare-starter-gridsome.git",
   },
-};
+];
 
 export default {
   getDefaultName: function () {
-    if (this.listNames().length == 0) {
-      throw "No templates are defined, check the cli config";
-    }
-    return this.listNames()[0];
+    return templates[0];
   },
   get: function (templateName) {
-    return templates[templateName];
+    const template = templates.find((element) => element.name == templateName);
+    if (template == undefined) {
+      console.error("%s Invalid template: %s", chalk.red.bold("ERROR"), templateName);
+      process.exit(1);
+    }
+    return template;
   },
   listNames: function () {
-    return Object.keys(templates);
+    return templates.map((t) => t.name);
   },
 };

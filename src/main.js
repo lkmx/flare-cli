@@ -4,9 +4,6 @@ import ncp from "ncp";
 import path from "path";
 import { promisify } from "util";
 
-import templates from './templates';
-
-
 const access = promisify(fs.access);
 const copy = promisify(ncp);
 
@@ -30,14 +27,14 @@ export async function flareStart(options) {
   const templateDir = path.resolve(
     new URL(currentFileUrl).pathname,
     "../../templates",
-    templates.get(options.template).path
+    options.template.path
   );
   options.templateDirectory = templateDir;
 
   try {
     await access(templateDir, fs.constants.R_OK);
   } catch (err) {
-    console.error("%s Invalid template name", chalk.red.bold("ERROR"));
+    console.error("%s Invalid template path", chalk.red.bold("ERROR"));
     process.exit(1);
   }
 

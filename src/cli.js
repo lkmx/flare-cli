@@ -1,8 +1,7 @@
 import arg from "arg";
-import inquirer from 'inquirer';
-import { flareStart } from './main';
-import templates from './templates';
-
+import inquirer from "inquirer";
+import { flareStart } from "./main";
+import templates from "./templates";
 
 function parseArgumentsIntoOptions(rawArgs) {
   const args = arg(
@@ -21,7 +20,7 @@ function parseArgumentsIntoOptions(rawArgs) {
   return {
     skipPrompts: args["--yes"] || false,
     git: args["--git"] || false,
-    template: args._[0],
+    templateName: args._[0],
     runInstall: args["--install"] || false,
   };
 }
@@ -30,15 +29,16 @@ async function promptForMissingOptions(options) {
   if (options.skipPrompts) {
     return {
       ...options,
-      template: options.template || templates.getDefaultName(),
+      template:
+        templates.get(options.templateName),
     };
   }
 
   const questions = [];
-  if (!options.template) {
+  if (!options.templateName) {
     questions.push({
       type: "list",
-      name: "template",
+      name: "templateName",
       message: "Please choose which project template to use",
       choices: templates.listNames(),
       default: templates.getDefaultName(),
@@ -56,11 +56,12 @@ async function promptForMissingOptions(options) {
 
   const answers = await inquirer.prompt(questions);
 
-
+  const templateName = options.templateName || answers.templateName;
 
   return {
     ...options,
-    template: options.template || answers.template,
+    templateName: templateName,
+    template: templates.get(templateName),
     git: options.git || answers.git,
   };
 }
